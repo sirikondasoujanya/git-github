@@ -1,0 +1,2823 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" applyBodyTag="false" applyHtmlTag="false" controller="AbbWorldcontroller" Extensions="MotherBot">
+    <apex:pageMessages ></apex:pageMessages>
+    <html>
+
+    <head>
+        <script type="text/javascript" src="/resource/1520967429000/MayaPackage__JqueryNew"></script>
+        <script src="/resource/1520967429000/MayaPackage__AWS"></script>
+        <script type="text/javascript" src="/resource/1522047237000/MayaPackage__blobfileurl"></script>
+        <apex:includeScript value="/soap/ajax/28.0/connection.js" />
+        <apex:includeScript value="/soap/ajax/28.0/apex.js" />
+        <meta http-equiv="X-UA-Compatible" content="IE=7,IE=8,IE=9,IE=11,IE=edge" />
+        <title>MAYA</title>
+        <link rel="icon" type="img/x-icon" href="/resource/1515783125000/MayaPackage__ProfileC" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+        <meta charset="utf-8" />
+        <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+        <meta content="width=device-width,initial-scale=1" name="viewport" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.3/mobile-detect.min.js"/>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400i|Source+Sans+Pro:300,400,600,700" rel="stylesheet" />
+        <script src="/resource/1515783125000/MayaPackage__Fontawesome"></script>
+        <style type="text/css" rel="stylesheet">
+            .popover {
+                max-width: 185px;
+                font-size: 12px
+            }
+
+            .profile,
+            .profile:hover,
+            .profile:focus {
+                color: #fff
+            }
+
+            .panel-center-title {
+                font-size: 14px;
+                text-align: right;
+                margin-right: 5%;
+                margin-top: 7px;
+                margin-bottom: 0
+            }
+        </style>
+        <style>
+            body {
+                font-family: 'Open Sans', sans-serif;
+                font-size: 13px;
+                line-height: 1.6;
+                background: url('/resource/1520362531000/MayaPackage__chatBg3');
+            }
+
+            .panel-default>.panel-heading {
+                color: #fff !important;
+                background: linear-gradient(to right, #009bde, #1976d2) !important;
+                border-color: #009bde !important
+            }
+
+            .panel-default {
+                border-color: #fff;
+                box-shadow: 0 1px 5px 0 #c8c8c8;
+            }
+
+            .hide {
+                display: none
+            }
+
+            /*.messages.msg_sent:after {
+            content: '';
+            position: absolute;
+            border-color: transparent transparent transparent #009bde !important;
+            width: 10px;
+            height: 10px;
+            border: 8px solid;
+            right: 1px;
+            top: 0;
+            border-width: 0 0 10px 10px
+             }
+
+        .messages.msg_receive:before {
+            content: '';
+            position: absolute;
+            border-color: transparent #efefef transparent transparent !important;
+            width: 10px;
+            height: 10px;
+            border: 8px solid;
+            top: 0;
+            left: 1px;
+            border-width: 0 10px 10px 0
+        }*/
+
+            .relative {
+                position: relative
+            }
+
+            .btn-group-lg>.btn,
+            .btn-lg {
+                padding: 6px 10px
+            }
+
+            .col-md-2,
+            .col-md-10 {
+                padding: 0
+            }
+
+            .panel {
+                margin-bottom: 0;
+                padding: 0px;
+                position: relative;
+                /* background: url('/resource/1520932124000/MayaPackage__chatBg3');*/
+            }
+
+            .chat-window {
+                margin: 10px auto;
+                float: none !important
+            }
+
+            .chat-window>div>.panel {
+                border-radius: 5px 5px 0 0
+            }
+
+            .icon_minim {
+                padding: 2px 10px
+            }
+
+            .msg_container_base {
+                /*background: url('/resource/1520932124000/MayaPackage__chatBg');*/
+                margin: 0px 0 0;
+                padding: 10px 15px;
+                max-height: 100%;
+                overflow-x: hidden;
+                position: relative
+            }
+
+            .top-bar {
+                background: #666;
+                color: white;
+                padding: 10px 10px;
+                position: relative
+            }
+
+            .msg_receive {
+                padding-left: 0;
+                margin-left: 0;
+                background: #e6ebef;
+                color: #616161;
+                margin-bottom: 16px;
+                /*border: 1px solid #efefef; */
+            }
+
+            .msg_sent {
+                margin-right: 10px;
+                margin-left: 0 !important;
+                background: #009bde;
+                color: #fff;
+                border-radius: 30px 0 30px 30px !important;
+                margin-bottom: 16px;
+            }
+
+            .messages {
+                padding: 7px 18px;
+                border-radius: 30px 30px 30px 0px;
+                max-width: 100%;
+                margin-left: 10px margin-bottom: 16px;
+            }
+
+            .messages.leftside {
+                border-radius: 0 3px 3px 3px
+            }
+
+            .messages>p {
+                margin: 0 0 .2rem 0
+            }
+
+            .messages>time {
+                font-size: 11px;
+                color: #ccc
+            }
+
+            .msg_container {
+                padding: 10px 10px 0 10px;
+                overflow: hidden;
+                display: flex
+            }
+
+            .avatar {
+                position: relative;
+                text-align: center
+            }
+
+            .avatarUser {
+                position: relative;
+                display: none;
+            }
+
+            .userMe {
+                font-size: 11px;
+                color: #999;
+                text-transform: capitalize;
+                white-space: normal;
+                display: none
+            }
+
+            .userMe-fixed {
+                /* position: absolute;
+             width: 100%;*/
+                text-align: center;
+                padding: 5px 0;
+                border-bottom: 1px solid #e7e7e7;
+                background: linear-gradient(to right, #f4f4f4, #fcfcfc);
+                color: #747474;
+                box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.1);
+                -webkit-box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 0px 2px 2px -1px rgba(0, 0, 0, 0.1);
+            }
+
+            .dropbtn {
+                background-color: #4caf50;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: 0;
+                cursor: pointer
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+                z-index: 1
+            }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block
+            }
+
+            .dropdown-menu {
+                min-width: 85px !important
+            }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: #3e8e41
+            }
+
+            .base_sent {
+                justify-content: flex-end;
+                align-items: flex-end
+            }
+
+            .msg_sent>time {
+                float: right
+            }
+
+            .msg_container_base::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                background-color: #f5f5f5
+            }
+
+            .msg_container_base::-webkit-scrollbar {
+                width: 12px;
+                background-color: #f5f5f5
+            }
+
+            .msg_container_base::-webkit-scrollbar-thumb {
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+                background-color: #555
+            }
+
+            .btn-group.dropup {
+                position: fixed;
+                left: 0;
+                bottom: 0
+            }
+
+            #loading-image {
+                display: none;
+                position: absolute;
+                bottom: 80px;
+                left: 48%;
+                z-index: 1
+            }
+
+            #chatingimage {
+                margin-left: 42px;
+                bottom: 245px;
+                color: #d58512;
+                margin-top: -11px
+            }
+
+            #showtime {
+                border-top: 1px solid #dedede;
+                color: #747474;
+                padding: 5px 0;
+                text-align: center;
+                width: 100%;
+                position: relative;
+                margin: 15px 0;
+                font-size: 11px
+            }
+
+            #showtime span {
+                width: 100px;
+                background-color: #f4f5f6;
+                padding: 3px 5px;
+                position: absolute;
+                left: calc(50% - 50px);
+                top: -12px
+            }
+
+            .timeRLbl {
+                margin-top: -5px;
+                margin-right: 7px;
+                color: #908e8e;
+                float: right;
+                font-size: 12px
+            }
+
+            .timeRLbls {
+                margin-top: -5px;
+                margin-right: 7px;
+                color: #908e8e;
+                float: right;
+                font-size: 12px
+            }
+
+            .timeLLbl {
+                color: #908e8e;
+                margin-top: 5px;
+                margin-left: 8px;
+                font-size: 12px
+            }
+
+            .chat-window .btn-warning {
+                background-color: #2196f3 !important;
+                background: 0;
+                color: #fff;
+                border: 0;
+                font-weight: normal;
+                font-size: 12px
+            }
+
+            .chat-window .btn-warning:active:hover,
+            .chat-window .btn-warning:hover {
+                background-color: #1976D2 !important
+            }
+
+            a.dropdown-toggle,
+            a.dropdown-toggle:hover,
+            a.dropdown-toggle:focus {
+                color: #fff
+            }
+
+            .btn-group-lg>.btn,
+            .btn-lg {
+                padding: 10px 16px !important;
+                font-size: 17px !important;
+                background: #fff !important;
+                border-color: #ccc !important;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075) !important;
+                line-height: 1.45 !important;
+                border-bottom-right-radius: 30px !important;
+                border-top-right-radius: 30px !important;
+                margin-top: 0 !important
+            }
+
+            .panel-footer {
+                background-image: url('/resource/1520449173000/MayaPackage__keyboard');
+                background-position: 13px 10px;
+                background-size: 33px;
+                background-repeat: no-repeat;
+                padding: 5px 10px 5px 50px;
+                background-color: transparent;
+                font-size: 16px;
+            }
+
+            .panel-footer .btn-default:hover {
+                background-color: transparent !important;
+                border: 0 !important;
+            }
+
+            .panel-footer .btn-default img {
+                opacity: 0.7;
+            }
+
+            .panel-footer .btn-default:hover img {
+                opacity: 1;
+            }
+
+            .panel-footer .form-control,
+            .panel-footer button {
+                border: 0;
+                border-radius: 0;
+                background: transparent !important;
+                padding: 5px 10px !important;
+                box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                -moz-box-shadow: none !important;
+            }
+
+            .panel-footer .form-control:focus,
+            .panel-footer .form-control:hover {
+                box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                -moz-box-shadow: none !important;
+            }
+
+            .input-lg {
+                border-radius: 30px;
+                font-size: inherit;
+            }
+
+            .btn-default:hover {
+                color: #333;
+                background-color: #e6e6e6 !important;
+                border-color: #adadad !important
+            }
+
+            .panel-center-title {
+                font-size: 14px;
+                float: right;
+                margin-right: 0;
+                margin-top: 7px;
+                margin-bottom: 0
+            }
+
+            .btn.disabled,
+            .btn[disabled],
+            fieldset[disabled] .btn {
+                background: 0;
+                background-color: #ccc;
+                border: 0
+            }
+
+            .btn-new {
+                display: inline-block;
+                font-weight: 400;
+                line-height: 1.25;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                border: 1px solid transparent;
+                padding: .5rem 1rem;
+                font-size: 13px;
+                border-radius: .25rem;
+                -webkit-transition: all .2s ease-in-out;
+                -o-transition: all .2s ease-in-out;
+                transition: all .2s ease-in-out;
+            }
+
+            .adjucent_message {
+                margin-top: -5px;
+                padding: 0 10px;
+            }
+
+            .btn-outline-primary {
+                border: 1px solid #1976d2;
+                background-color: transparent;
+                padding: 5px 15px;
+                background: none;
+                border-radius: 20px;
+                color: #1976d2;
+                margin: 5px 10px 5px 0;
+                font-size: inherit;
+                font-weight: normal;
+            }
+
+            .btn-outline-primary:focus,
+            .btn-outline-primary:hover {
+                outline: none;
+                background-color: #1976d2;
+                color: #fff;
+            }
+
+            .button_holder {
+                margin-left: 35px;
+                padding: 15px 10px;
+            }
+
+            /*****new year css******/
+
+            /* .chat-window .panel {
+            background-image: url('/resource/1514456794000/newyearbg');
+            background-repeat: repeat-y;
+            background-position: center center;
+        }
+
+        .chat-window .msg_container_base {
+            background-color: transparent;
+        }
+
+        .chat-window .panel-default>.panel-heading {
+            background-image: url('/resource/1514456775000/newyearheader');
+            background-repeat: repeat-y;
+            background-position: center center;
+        }
+
+        .chat-window .messages.msg_receive:before {
+            border-color: transparent #147c7b transparent transparent !important;
+        }
+
+        .chat-window .msg_receive {
+            background: #147c7b;
+            color: #fff;
+        }
+
+        .chat-window .panel-footer {
+            border-color: #ccd0d4;
+            box-shadow: 0px -4px 7px #dcdcdc;
+            -webkit-box-shadow: 0px -4px 7px #dcdcdc;
+            -moz-box-shadow: 0px -4px 7px #dcdcdc;
+        }
+
+        .chat-window .panel-footer .fa-lg {
+            color: #138a90;
+        }
+
+        .chat-window .msg_sent {
+            background: #e6e6e6;
+            color: #333;
+        }
+
+        .chat-window .messages.msg_sent:after {
+            border-color: transparent transparent transparent #e6e6e6 !important;
+        }
+
+        .chat-window .btn-warning {
+            background-color: #fafafa !important;
+            color: #147c7b;
+            border: 1px solid #c3c3c3;
+        }
+
+        .chat-window .btn-warning:active:hover,
+        .chat-window .btn-warning:hover {
+            background-color: #147c7b !important;
+            color: #fff;
+        }
+
+        .chat-window .panel a {
+            color: #fff;
+            text-decoration: underline;
+        }*/
+
+            /***** End of new year css******/
+        </style>
+    </head>
+
+    <body onload="window.resizeTo(460,600)">
+        <div class="container">
+            <div class="row">
+                <div class="chat-window col-xs-12 col-md-8 col-sm-10" id="chat_window_1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading top-bar clearfix">
+                            <div class="col-md-12 col-xs-12">
+                                 <h3 class="panel-title pull-left"><img class="pull-left" style="width:72px;margin-top:5px" src="/resource/1520932124000/MayaPackage__AbbottLogo" alt="SmartBots" /></h3>
+                                <a href="" class="profile" data-container="body" data-toggle="popover" data-trigger="focus hover" data-placement="bottom" data-content="Hi, I am Maya your Virtual Assistant.
+                                 I am backed by Amazon Lex brain and currently trained on EPD, India processes.
+You can ask me questions of Abbworld KPI parameters or queries that you may have in general.
+                                                                                                                                                                        I will try my best to address your queries. Request your patience and hope to see you again!
+                           " style="font-size:11px; margin-left:10px; text-align:center;display:inline-block;float:right"><img src="/resource/1520932124000/MayaPackage__ProfileC" style="width:32px" />
+                                </a>
+                                <h3 class="panel-center-title">Business Effectiveness</h3>
+                            </div>
+                        </div>
+                        <!--<div class="userMe-fixed">{!$User.FirstName} {!$User.LastName}</div>-->
+                        <div class="panel-body msg_container_base" id="chatbox" style="padding-bottom:60px;"></div>
+                        <div class="panel-footer" id="input_area">
+                            <div id="loading-image"><i class="fa fa-spinner fa-spin fa-lg fa-fw"></i>
+                            </div>
+                            <div class="input-group">
+                                <input name="usermsg" type="text" id="usermsg" autofocus="true" autocomplete="off" class="form-control input-lg chat_input" placeholder="Write your message here..." /><span class="input-group-btn"><button class="btn btn-default btn-lg" id="submitmsg" onclick="userInputTrigger()"><img src="/resource/1520932124000/MayaPackage__nextArrow" style="width:32px;" alt="" /></button></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.chat-window .panel-body').css('height', $(window).height() - 170);
+            });
+            $(function() {
+                $('.profile').on('click', function(e) {
+                    e.preventDefault()
+                });
+                $('[data-toggle="popover"]').popover()
+            });
+       
+            $("#logout").click(function() {
+                localStorage.UserId = '';
+                localStorage.LogoUrl = '';
+                window.location.href = 'newchatlogin.html'
+            });
+
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1]
+                    }
+                }
+            }
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+
+    </html>
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            $('.chat-window .panel-body').css('height', $(window).height() - 170);
+        });
+var tokenresp;
+var token;
+var osName = navigator.platform;
+var nVer = navigator.appVersion;
+var nAgt = navigator.userAgent;
+var browserName = navigator.appName;
+var fullVersion = '' + parseFloat(navigator.appVersion);
+var nameOffset, verOffset, ix;
+var browserDetails;
+var systemDetails;
+        
+console.log('osname :)'+osName+' nver:)'+nVer +' nagt:)'+nAgt+' browser:)'+browserName);
+var id = '{!$User.Id}';
+var userid = '{!$User.Id}';
+var username = '{!$User.Username}';
+var userdivision = '{!$User.MayaPackage__Division_Name__c}'; // added on 23rd May 2018
+var email = '{!$User.Email}';
+var nickname = '{!$User.CommunityNickname}';
+var company = '{!$User.CompanyName}';
+var firstname = '{!$User.FirstName}';
+var lastname = '{!$User.LastName}';
+var profile = '{!$User.ProfileId}';
+var empno = '{!$User.EmployeeNumber}';
+
+var ipAddress = '';
+window.onload = function() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://api.ipify.org?format=jsonp&callback=DisplayIP";
+    document.getElementsByTagName("head")[0].appendChild(script)
+};
+
+function DisplayIP(response) {
+    ipAddress = JSON.stringify(response.ip)
+}
+// console.log("id::" + id + ":userid:" + userid + ":username:" + username + ":email:" + email + ":nickname:" + nickname + ":company:" + company + ":firstname:" + firstname + ":lastname:" + lastname + ":profile:" + profile);
+if ((verOffset = nAgt.indexOf("OPR/")) != -1) {
+    browserName = "Opera";
+    fullVersion = nAgt.substring(verOffset + 4)
+} else if ((verOffset = nAgt.indexOf("Opera")) != -1) {
+    browserName = "Opera";
+    fullVersion = nAgt.substring(verOffset + 6);
+    if ((verOffset = nAgt.indexOf("Version")) != -1)
+        fullVersion = nAgt.substring(verOffset + 8)
+} else if ((verOffset = nAgt.indexOf("MSIE")) != -1) {
+    browserName = "Microsoft Internet Explorer";
+    fullVersion = nAgt.substring(verOffset + 5)
+} else if ((verOffset = nAgt.indexOf("Chrome")) != -1) {
+    browserName = "Chrome";
+    fullVersion = nAgt.substring(verOffset + 7)
+} else if ((verOffset = nAgt.indexOf("Safari")) != -1) {
+    browserName = "Safari";
+    fullVersion = nAgt.substring(verOffset + 7);
+    if ((verOffset = nAgt.indexOf("Version")) != -1)
+        fullVersion = nAgt.substring(verOffset + 8)
+} else if ((verOffset = nAgt.indexOf("Firefox")) != -1) {
+    browserName = "Firefox";
+    fullVersion = nAgt.substring(verOffset + 8)
+} else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))) {
+    browserName = nAgt.substring(nameOffset, verOffset);
+    fullVersion = nAgt.substring(verOffset + 1);
+    if (browserName.toLowerCase() == browserName.toUpperCase()) {
+        browserName = navigator.appName
+    }
+}
+        
+        
+if ((ix = fullVersion.indexOf(";")) != -1)
+    fullVersion = fullVersion.substring(0, ix);
+if ((ix = fullVersion.indexOf(" ")) != -1)
+    fullVersion = fullVersion.substring(0, ix);
+var botName = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__Bot_Name__c}";
+var lex_bot_name = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__Bot_Name__c}"; // 'AbbBot';
+var lex_bot_alias = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__Bot_Alias__c}"; //'AbbBotPhaseOne';//AbbottDemo//Maya_PhaseOne//Maya_case
+var WelcomeMsg = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__Welcome_message__c}";
+var feedbacktime = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__Feedback_time__c}";
+var loadingdiv;
+var buttonGlobalCount = 0;
+var tokenResponse;
+var timoutWarning;
+var handle = "BOT";
+var htmlcode = "";
+var lexruntime;
+var userName = "Me";
+var nMinuOneUtterance = {};
+var chatLog = [];
+var bot = "BOT";
+var sessionKey;
+var sessionId;
+var afinityToken;
+var count = -1;
+var userinputs = [];
+var actionType;
+var texttoSendBack;
+var currentContext;
+var buttonList = [];
+var buttontext = [];
+localStorage.CaseSubject = "";
+localStorage.CaseDescription = "";
+localStorage.CaseAttachments = "";
+localStorage.None = "";
+var userIsIdle = false;
+var feedbackMode = false;
+var test = false;
+var caseSubjectarr = [];
+var caseOrigin;
+var caseRecordType;
+var ErrorMessage = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__ErrorMessage__c}";
+var endpointurl = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__Endpoint_url__c}";
+var authorizationtoken = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__authorizationtoken__c}";
+var UserEmail = '{!$User.Email}';
+var LastName = '{!$User.LastName}';
+var username = '{!$User.FirstName} {!$User.LastName}'
+localStorage.conversationId = uuidv4();
+var intentname;
+var sessionAttributes = {
+    someKey: 'STRING_VALUE',
+    employeeId: userid,
+    chatDescription: '',
+    latestUserQuery: '',
+    empno: empno
+};
+var isFulfilled = 'Fulfilled';
+var currentSpec = "";
+var currentSpecTwo = "";
+var currentSpecThree = "";
+var currentBrand = "";
+var sequence = 1;
+var idleInterval = 0;
+var type = {};
+/*var ConnectInfo ={
+            "Connect 2019 Information": "Here is the Connect Information: $$Connect Meet##Connect Travel##Connect FAQ$$",
+
+            "Connect Meet": "Connect 2019 is on 5th of January, 2019 at Pune, Maharashtra. $$Back@@Connect 2019 Information$$",
+            "Connect Travel": "Here is Connect Meet info: $$Travel Info##Booking Info##Back@@Connect 2019 Information$$",
+            "Connect FAQ":"here is: $$Reimburse Info##Cancellation Info##Compensatory Off##Back@@Connect 2019 Information$$",
+
+            "Travel Info":"You can book your train ticket by any available train to Pune. You will be reimbursed the sum of the 3AC fare from home station to Pune. Same applies for the return journey as well. You will need to attach the ticket receipts to claim the same. Please confirm your travel plan by booking your to-and-fro tickets before 10th Nov and confirm to ABM and ZBM via email. $$Back@@Connect Travel$$",
+            "Booking Info":"Yes, you can book your train ticket via break journeys to Pune incase confirmed berths are not available via direct route. You shall be reimbursed 3AC fares for the same. You shall need to attach tickets here. $$Back@@Connect Travel$$",
+
+            "Reimburse Info":"You will be reimbursed as per 3AC ticket fare, even if the actual cost is lesser. $$Back@@Connect FAQ$$",
+            "Cancellation Info":"Cancellation reimbursement will be restricted to eligible class and mode of travel. You will need to submit the cancellation receipt to claim the amount. $$Back@@Connect FAQ$$",
+            "Compensatory Off":"You will get compensatory off on 12th and 19th January 2019. $$Back@@Connect FAQ$$"
+            };*/
+ var gstobj = {
+        'GSTIN':{
+            'ailgst':'MayaPackage__Ail_GSTIN_Number__c',
+            'ahplgst':'MayaPackage__Ahpl_GSTIN_Number__c'
+            },
+        'PPB':{
+            'ailppb':'MayaPackage__Ail_Principal_Place_of_Business__c',
+            'ahplppb':'MayaPackage__Ahpl_Principal_Place_of_Business__c'
+        }
+    }
+
+function ConfigureAWSLex() {
+    AWS.config.region = 'us-east-1';
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:b390c7ea-e164-48e7-bd98-406f7314f3d5'
+    });
+
+    lexruntime = new AWS.LexRuntime();
+    AWS.config.apiVersions = {
+        lexruntime: '2016-11-28',
+    };
+}
+
+
+
+$(document).ready(function() {
+    ConfigureAWSLex();
+    // enableInputBox();
+    disableInputBox();
+    // To send system info into log
+     var detector = new MobileDetect(window.navigator.userAgent);
+        
+        if (detector.tablet() != null) {
+          type.device = detector.tablet();
+          type.os = detector.os();
+          type.useragent = detector.userAgent();
+        } else if (detector.phone()) {
+          type.device = detector.phone();
+          type.os = detector.os();
+          type.useragent = detector.userAgent();
+        } else {
+          type.device = "Desktop";
+          type.os = navigator.platform;
+          var ua = navigator.userAgent.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i),
+            browser;
+          if (navigator.userAgent.match(/Edge/i) || navigator.userAgent.match(/Trident.*rv[ :]*11\./i)) {
+            // alert()
+            type.useragent = "msie";
+          } else {
+            type.useragent = ua[1].toLowerCase();
+          }
+        }
+        console.log('sesese'+(JSON.stringify(type)));
+    
+    setTimeout(function() {
+        var d = new Date();
+
+        reportedTime = d;
+        username = '{!$User.FirstName} {!$User.LastName}';
+        console.log('Logged in User is ' + '{!$User.LastName}');
+        if (WelcomeMsg.indexOf('{username}')) {
+            WelcomeMsg = WelcomeMsg.replaceAll('{username}', username);
+        }
+        appendTypingToChatBox();
+        appendSupervisorMessageToChatBox(isValid(WelcomeMsg) ? WelcomeMsg : "Hi how can I assist you ?", botName);
+        disableInputBox();
+    }, 2000);
+
+});
+$(document).keypress(function(e) {
+    if (e.which == 13) {
+        var userInput = $("#usermsg").val().trim();
+        console.log('User input is ' + userInput);
+        if (userInput != "") {
+            setYesNobuttons();
+            userInputTrigger();
+        }
+    }
+});
+
+function setYesNobuttons() {
+    if (isValid(feedbacktime)) {
+        feedbacktime = feedbacktime
+    } else {
+        feedbacktime = '60';
+    }
+    var idleTime = 0;
+    var totaltime = feedbacktime * 1000;
+    //Increment the idle time counter every minute.
+    idleInterval = setInterval(timerIncrement, 1000); // 1 minute
+    //Zero the idle timer on mouse movement.
+    $(this).mousemove(function(e) {
+        idleTime = 0;
+    });
+    $(this).keypress(function(e) {
+        idleTime = 0;
+    });
+
+    function timerIncrement() {
+        idleTime = idleTime + 1;
+        // console.log('idleTime is:' + totaltime);
+        if (idleTime >= feedbacktime) {
+            if (buttonList == '' || buttonList != 'yes,no') {
+                if (!test) {
+                    test = true;
+                    if (handle != 'AGENT') {
+                        appendToChatBox('Is there anything more I can assist you with? $$Yes@@help##No@@give me feedback$$', 'imagecase', "with Out Icon");
+                        myStopFunction();
+                        console.log('after setinterval time is' + idleInterval);
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    function myStopFunction() {
+        clearInterval(idleInterval);
+    }
+
+}
+
+function userInputTrigger() {
+    console.log('handle is:)' + handle);
+    userIsIdle = false;
+    var userInput = $("#usermsg").val().trim();
+	console.log('liveagent is :'+userInput.toLowerCase().trim())
+    if (userInput != "") {
+        $("body").find("#chatingimage").attr("onclick", "return false").remove();
+        $("body").find(".btnRemove").attr("onclick", "return false").remove();
+        var userInputJSON = {
+            'message': {
+                'text': userInput,
+                'alignment': 'RIGHT'
+            }
+        };
+        appendMessageToChatBox(userInputJSON);
+        if (handle === "AGENT") {
+            postUserMessageToAgent(userInput);
+        }
+
+        if (handle === "BOT") {
+            if (userInput.toLowerCase().trim() === "chat with agent" || userInput.toLowerCase().trim() === "chat with associate") {
+                appendToChatBox(userInput);
+            } else {
+                getLexBotResponse(userInput)
+            }
+        }
+        clearSentValue();
+    }
+    return !1
+};
+
+// Added on Thursday for connect Information: 12/13/2018
+
+function sendObjectToChatBox(value, userInput) {
+    //appendTypingToChatBox();
+    appendSupervisorMessageToChatBox(value, userInput);
+    handle = 'BOT';
+}
+
+function postUserMessageToAgent(inputText) {
+    clearSentValue();
+    postMessageToLiveAgent(inputText, sequence, localStorage.afinityToken, localStorage.sessionKey);
+    enableInputBox();
+    sequence = sequence + 1;
+}
+
+function getLexBotResponse(input) {
+    disableInputBox();
+    if (input == 'help') {
+        document.getElementById("usermsg").disabled = false;
+    }
+    if (isValid(intentname) && (intentname == 'Create_Case')) {
+        input = isValid(localStorage.texttoSendBack) ? localStorage.texttoSendBack : input;
+        if (input == 'case attachments' || input == 'case description' || input == 'case subject' || input == 'Create Case' || input == 'Case Subject') {
+            if (input != "create case" && input != "yes" && input != "no") {
+                userinputs.push($("#usermsg").val());
+            }
+            console.log('userInputs is :)' + userinputs);
+            localStorage.texttoSendBack = "";
+            currentContext = "";
+        }
+    }
+
+    var inputLower = input.toLowerCase();
+    if (inputLower != null || inputLower.indexOf("create case") > -1) {
+        var storageMessages = $("#chatbox").text();
+    }
+    appendTypingToChatBox();
+    
+    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    //appendToBrowserLog(input, userName);
+
+    clearSentValue();
+
+    var inputText = input;
+    var extractedEmail = "";
+    var newmessage = "";
+    var responseParametrs = {};
+    var stateType = "";
+    var finalMultiResult = "";
+    var agentverification = "";
+    var finalBotResponse;
+    var params = {
+        botAlias: lex_bot_alias, //'abbworld_phaseOne',//
+        botName: lex_bot_name, //'AbbWorld_Bot',//
+        inputText: inputText.toLowerCase(),
+        userId: '{!$User.Id}',
+        sessionAttributes: sessionAttributes
+    };
+    console.log('Input object to lex ');
+
+    params.sessionAttributes.isFulfilled = isFulfilled;
+    params.sessionAttributes.currentBrand = currentBrand;
+    params.sessionAttributes.currentSpec = currentSpec;
+    params.sessionAttributes.currentSpecTwo = currentSpecTwo;
+    params.sessionAttributes.currentSpecThree = currentSpecThree;
+    console.log(JSON.stringify(params));
+    // log user input into Data base
+    LogEntries(inputText, "User", "Question", "", "", "", "");
+    // Added By Praveen : 
+    console.log('input is ##'+inputText);
+    tokenValidation(endpointurl,inputText,params.userId,sessionAttributes,function(lambdaresponse){  
+        console.log('response from lambda'+JSON.stringify(lambdaresponse));
+        lambdaresponse = JSON.parse(lambdaresponse);
+        var authmsg = lambdaresponse.message;
+        var statuscode = lambdaresponse.status;
+        var msg =  lambdaresponse.message;
+        if(statuscode && statuscode == '403'){
+            return appendSupervisorMessageToChatBox(msg, userInput, 'Error');
+        }
+        if(authmsg == 'Unauthorized'){
+            return appendSupervisorMessageToChatBox('Authentication Failed', userInput, 'Error');
+        }
+         var userInput = params.inputText;
+            if(lambdaresponse){
+            var category = getResponseCategory(lambdaresponse);
+            processLexResponse(lambdaresponse, function(callback) {
+                if(callback){
+                var checkingType = isObject(callback);
+                var botresp = lambdaresponse;
+                var outputparam = botresp.sessionAttributes.outputparam;
+                    console.log('outputparam is :)'+outputparam);
+                var gsttype = botresp.sessionAttributes.gsttype;
+                var message = botresp.message;
+                    var finalmsg = fillGstInfo(message,callback,gsttype);
+                     console.log('finalmsg :'+JSON.stringify(finalmsg));
+                    callback = finalmsg;
+                    /*if(outputparam){
+                    var newvalue = outputparam;
+                    newvalue = newvalue.replace("<","").replace(">","");
+                    message = message.replace(outputparam,callback[0][newvalue]);
+                    callback = message;
+                }else{
+                    callback = callback;
+                }*/
+                console.log('After processing the response is)'+JSON.stringify(callback));
+                console.log(JSON.stringify(callback));
+                console.log('The checking type value is ');
+                console.log(checkingType);
+                if (!checkingType) {
+                    finalBotResponse = appendLinkToMailIds(callback);
+                    callback = finalBotResponse;
+                    appendSupervisorMessageToChatBox(callback, userInput, category);
+                } else {
+                    finalBotResponse = JSON.stringify(callback);
+                    callback = finalBotResponse;
+                    appendSupervisorMessageToChatBox(callback, userInput, category);
+                }
+                }
+            });
+            }else{
+                console.log('In else case :)');
+                
+            appendSupervisorMessageToChatBox("Sorry I could't understand your query. Can you rephrase it");
+            }
+    //});
+        });
+}
+		function fillGstInfo(message,sfdcresult,gsttype){
+            	if (message.indexOf('<MayaPackage__') > -1) {
+                var regx = message.match(/<[A-Z__a-z]+>/gm);
+                if (regx.length > 0) {
+                for (var i = 0; i <= regx.length - 1; i++) {
+                    //if (gsttype == 'ail') {
+                    console.log('before replace'+message);
+                    var sfdcfield = regx[i];
+                     sfdcfield = sfdcfield.replace("<","").replace(">","");
+                    message = message.replace(regx[i], sfdcresult[0][sfdcfield]);
+                     console.log('after replace is :'+message);
+                    /*} else {
+                     var sfdcfield = regx[i];
+                     sfdcfield = sfdcfield.replace("<","").replace(">","");
+                     message = message.replace(regx[i], sfdcresult[0][sfdcfield]);
+                     console.log('after replace is :'+message);
+                }*/
+                }
+                }
+                return message;
+            } else {
+                return sfdcresult;
+            }
+        }
+        
+       
+        
+        // Added By Praveen : 
+        function tokenValidation(url,userinput,userid,sessionattributes,callback){
+            console.log('userinpit in tokenValidation '+userinput);
+        var str_sessionAttributes = JSON.stringify(sessionattributes);
+        var params = {}
+        params.sessionAttributes = str_sessionAttributes;
+        params.userid = userid;
+        params.userinput = userinput;
+        console.log('userinput' + userinput + 'userid' + userid);
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.MotherBot.tokenvalidation}',url,authorizationtoken,JSON.stringify(params),
+            function(result, event) {
+                console.log('result from apex:)' + result);
+                if (result != null && result.length> 0) {
+                    console.log('Result in getMotherBotParameters' + result);
+                    return callback(result);
+                } else {
+                    console.log('result else  is :)' + result);
+                    return callback("Sorry I couldn't understand your query");
+                }
+
+            }, {
+                escape: false
+            });
+        }
+function isObject(value) {
+    return value && typeof value === 'object' && value.constructor === Object;
+};
+
+function processButtons(buttonsArray) {
+    var buttons = [];
+
+    if (buttonsArray != null && buttonsArray.length > 0) {
+        for (var i = 0; i <= buttonsArray.length - 1; i++) {
+            var currentButtons = buttonsArray[i].buttons;
+            if (currentButtons != null && currentButtons.length > 0) {
+                for (var j = 0; j <= currentButtons.length - 1; j++) {
+                    buttons.push(currentButtons[j]);
+                }
+            }
+        }
+    }
+    return buttons;
+}
+
+function keySpecMap(key) {
+    if (isValid(key)) {
+        key = key.replace('MayaPackage__', '').replace('__c', '').replace('_', ' ');
+        return key;
+    }
+    return key;
+
+}
+
+        // Added By Praveen :
+        function getMotherBotParameters(url,userinput, userid,sessionAttributes, callback) {
+        var str_sessionAttributes = JSON.stringify(sessionAttributes);
+        console.log('userinput' + userinput + 'userid' + userid);
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.MotherBot.RestCall}',url,userinput, userid,str_sessionAttributes,
+            function(result, event) {
+                console.log('result is :)' + result);
+                if (result != null && result.length> 0) {
+                    console.log('Result in getMotherBotParameters' + result);
+                    return callback(result);
+                } else {
+                    console.log('result else  is :)' + result);
+                    return callback("Sorry I couldn't understand your query");
+                }
+
+            }, {
+                escape: false
+            });
+    
+}
+
+        // Added By Praveen :
+function processLexResponse(data, callback1) {
+    console.log('in process lex resposne method'+JSON.stringify(data)+' data is '+ JSON.stringify(data.sessionAttributes));
+    if(data != null){
+    var responseParametrs = {};
+    var lexResponse;  
+    intentname = data.intentName;
+    var agentverification = "";
+    var casetext = data.sessionAttributes.textToSendBack;
+    caseOrigin = data.sessionAttributes.caseorigin;     
+    console.log('caseText is :)'+casetext);
+    var category = getResponseCategory(data);
+    sessionAttributes = data.sessionAttributes;
+    
+    if (data.intentName == 'Create_Case') {
+        console.log('1121@@');
+        if (casetext.toLowerCase() == 'case subject') {
+            localStorage.texttoSendBack = casetext;
+           return callback1(data.message);
+        } else if (casetext.toLowerCase() == 'case description') {
+            console.log('case desc ####');
+            localStorage.texttoSendBack = casetext;
+           return callback1(data.message);
+        } else if (casetext.toLowerCase() == 'case attachments') {
+            console.log('case attch  ####');
+            localStorage.texttoSendBack = casetext;
+          return  callback1(data.message);
+        } else if (casetext.toLowerCase() == 'None') {
+            localStorage.texttoSendBack = casetext;
+           return callback1(data.message);
+        }
+
+    } else if (data.sessionAttributes.actionType == 'Execute Query') {
+         console.log('112@@');
+        if (data.sessionAttributes.Category == 'Brands') {
+            console.log('In brands context');
+            processdataToRemoteAction(data, function(callback) {
+                lexResponse = callback;
+               return callback1(lexResponse);
+            });
+        }else if (data.sessionAttributes.Category == 'Case') {
+             console.log('1123333@@');
+            processCaseActions(data, function(callback) {
+                lexResponse = callback;
+              return  callback1(lexResponse);
+            });
+        }else if (data.sessionAttributes.Category == 'AbbWorld') {
+            console.log('callaverage is:)' + JSON.parse(data.sessionAttributes.queryObject).methodName);
+            var errorMessage = JSON.parse(data.sessionAttributes.queryObject).errorMessage;
+            var responseFormat = JSON.parse(data.sessionAttributes.queryObject).responseFormat;
+            var queryObject = JSON.parse(data.sessionAttributes.queryObject);
+            getAbbworldParameters(data, function(callback) {
+                if (callback != null && callback != undefined && callback != '') {
+                    var callbackresult = callback;
+                    console.log('@@@@@@@' + callback);
+                    if (callbackresult !== errorMessage) {
+                        var finalResult = fillBotResponseWithApexResult(responseFormat, JSON.parse(callbackresult), queryObject);
+                        console.log('response formatt is :)' + responseFormat + 'callback resposne is:)' + finalResult);
+                        if (isValid(finalResult) && finalResult.indexOf(" : ,") > -1) {
+                            console.log('@@@@ in ifff' + callback);
+                            finalResult = finalResult.replace(" : ,", '');
+                            return callback1(finalResult);
+                        } else {
+                            console.log('@@@@ in elseee' + callback);
+                            return callback1(finalResult);
+                        }
+                    } else {
+                        return callback1(errorMessage);
+                    }
+                } else {
+                    return callback1(errorMessage);
+                }
+            }, {
+                escape: false
+            });
+            // **** End **** //
+
+        }else if(data.sessionAttributes.Category == 'gst'){
+            console.log('####################@@');
+            var query = data.sessionAttributes.query;           
+             Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.MotherBot.getgstdata}', query,
+            function(result, event) {
+                console.log('result is ::@@:)' + result);
+                if (result != null && result.length > 0) {
+                    console.log('result from getgstdata' + JSON.stringify(result));
+                    return callback1(result);
+                } else {
+                    console.log('error in getgstdata :)' + result);
+                    return callback1("Sorry I couldn't understand your query");
+                }
+            }, {
+                escape: false
+            });
+        }
+        
+       
+    } else {
+        console.log('in ELse @@@');
+        var callbackValue = "";
+        var responseCards = data.responseCard;
+        data.message = data.message.replaceAll("$$Chat with agent## Create case$$", "");
+        if (responseCards != null && responseCards != "" && responseCards != undefined) {
+            var buttons = responseCards.genericAttachments[0].buttons;
+            var proccessedString = processResponseCards(buttons);
+            data.message += proccessedString;
+        }
+        //appendToBrowserLog(data.message, bot);
+        data.sessionAttributes.isFulfilled = isFulfilled;
+        data.sessionAttributes.currentSpec = currentSpec;
+        data.sessionAttributes.currentSpecTwo = currentSpecTwo;
+        data.sessionAttributes.currentSpecThree = currentSpecThree;
+        data.sessionAttributes.currentBrand = currentBrand;
+        //data.sessionAttributes.monthname = monthname;
+        // sessionAttributes = data.sessionAttributes;
+
+        if (isValid(data.sessionAttributes.State) == true) {
+            stateType = data.sessionAttributes.State;
+        }
+
+        var paramOne = isValid(data.sessionAttributes.paramOne) == true ? data.sessionAttributes.paramOne : "";
+        var paramTwo = isValid(data.sessionAttributes.paramTwo) == true ? data.sessionAttributes.paramTwo : "";
+        var paramThree = isValid(data.sessionAttributes.paramThree) == true ? data.sessionAttributes.paramThree : "";
+        var paramFour = isValid(data.sessionAttributes.paramFour) == true ? data.sessionAttributes.paramFour : "";
+        var paramFive = isValid(data.sessionAttributes.paramFive) == true ? data.sessionAttributes.paramFive : "";
+
+        responseParametrs.paramOne = paramOne;
+        responseParametrs.paramTwo = paramTwo;
+        responseParametrs.paramThree = paramThree;
+        responseParametrs.paramFour = paramFour;
+        responseParametrs.paramFive = paramFive;
+
+       return callback1(data.message);
+    }
+        }
+
+}
+
+// Added by Praveen for AbbWorld Integration :21/08/2018
+
+function fillBotResponseWithApexResult(response, apexresult, queryObject) {
+    var finalResponse;
+    var formatMethod = queryObject.formatMethod;
+    var errorMessage = queryObject != null && queryObject != undefined ? queryObject.errorMessage : 'Sorry!! The information you have requested is not avaialable.';
+    console.log('formatmethod is:)' + formatMethod);
+    try {
+        if (isValid(response) && isValid(apexresult)) {
+            if (isValid(formatMethod) && formatMethod == 'LoopThrough') {
+                finalResponse = LoopThrough(response, apexresult, queryObject);
+            } else if (isValid(formatMethod) && formatMethod == 'Conditional') {
+                finalResponse = conditional(response, apexresult, queryObject);
+            } else { // Default is simple string
+                finalResponse = simpleString(response, apexresult, queryObject);
+            }
+            return finalResponse;
+        } else {
+            // errorMessage = 'Information is not avilable';
+            return errorMessage;
+        }
+    } catch (e) {
+        var errorMessage = 'Looks like something is wrong! I am sorry!';
+        return errorMessage;
+    }
+}
+
+function simpleString(response, apexresult, queryObject) {
+    console.log('response is::::)' + response);
+    if (apexresult != null && apexresult != '' && apexresult != undefined) {
+        var resultValue = apexresult.result;
+        var keys = Object.keys(resultValue);
+        for (var i = 0; i <= keys.length - 1; i++) {
+            var currentKey = '<result.' + keys[i] + '>';
+            console.log('currentKey is:' + currentKey);
+            if (response.indexOf(currentKey) > -1) {
+                console.log('Value: ' + resultValue[keys[i]]);
+                if (resultValue[keys[i]] != null) {
+                    response = response.replace(currentKey, resultValue[keys[i]]);
+                }
+            } else {
+                response = response.replace(currentKey, 'NA');
+            }
+        }
+        finalResponse = response;
+        return finalResponse;
+    } else {
+        return finalResponse;
+    }
+}
+
+function conditional(response, apexresult, queryObject) {
+    var resultValue = apexresult.result;
+    if (isValid(resultValue.Condition)) {
+        return simpleString(response[resultValue.Condition], apexresult, queryObject)
+    } else {
+        // Todo
+        return response;
+    }
+}
+
+        // Added By Praveen :
+function LoopThrough(response, apexresult, queryObject) {
+    try {
+        console.log('response is:)' + JSON.stringify(response) + 'apex result is:)' + apexresult);
+        var result;
+        var resultValue;
+        var methodname;
+        var prompts = '';
+        var normalstring;
+        var errorMessage = queryObject != null && queryObject != undefined ? queryObject.errorMessage : 'Sorry!! The information you have requested is not avaialable.';
+        if (isValid(response) && isValid(apexresult)) {
+            if (queryObject != null && queryObject != '' && queryObject != undefined) {
+                methodname = queryObject.methodName;
+                if (isValid(methodname) && methodname == 'getMTPDoctors') {
+                    resultValue = apexresult.result.mtpdoctor;
+                } else if (isValid(methodname) && methodname == 'getLeaveBalance') {
+                    resultValue = apexresult.result.leavebal;
+                }
+            }
+
+
+            if (response.indexOf('@newline') > -1) {
+                var chunks1 = response.split('@newline');
+                prompts = '@newline' + chunks1[1];
+                normalstring = chunks1[0];
+            } else {
+                normalstring = response;
+            }
+            if (normalstring.indexOf('<loop>') > -1) {
+                var chuncks = normalstring.split('<loop>');
+                var reqChunck = chuncks[1];
+                console.log('@@@@' + apexresult.result.counts);
+                if (methodname && methodname == 'getMTPDoctors') {
+                    result = simpleString(chuncks[0], {
+                        'result': apexresult.result.counts
+                    }, queryObject) + '<br>';
+                } else {
+                    result = chuncks[0];
+                }
+                console.log('result is:)' + result);
+
+                if (resultValue != null && resultValue.length > 0) {
+                    for (var i = 0; i <= resultValue.length - 1; i++) {
+                        console.log('current Key is:)@@@@' + JSON.stringify(resultValue[i]));
+                        var currentChunck = reqChunck;
+                        var keys = Object.keys(resultValue[i]);
+                        for (var j = 0; j <= keys.length - 1; j++) {
+                            var currentKey = 'result.' + keys[j];
+                            if (currentChunck.indexOf(currentKey) > -1) {
+                                console.log('in ifffffffff' + currentKey);
+                                if (resultValue[i][keys[j]] === null) {
+                                    // console.log('in if condition');
+                                    currentChunck = currentChunck.replace(currentKey, '').replace(keys[j], '').replace(': ,', '').replace(':,', '').replace(' :', '');
+                                } else {
+                                    currentChunck = currentChunck.replace(currentKey, resultValue[i][keys[j].toString()]);
+                                    currentChunck = currentChunck.split('<').join('');
+                                    currentChunck = currentChunck.split('>').join('');
+                                }
+                            }
+
+                        }
+                        result += currentChunck + '<br>';
+                        console.log('result is@@@@' + result);
+                    }
+                } else {
+                    result = errorMessage;
+                }
+            }
+        }
+        return result + prompts;
+    } catch (e) {
+        console.log('Exception: ' + e);
+        result = 'Looks like something is wrong! I am sorry!';
+        return result;
+    }
+}
+
+function splitbydot(result) {
+    var pcslist = [];
+    if (result != null && result.length > 0) {
+        for (var i = 0; i <= result.length - 1; i++) {
+            if (result[i].indexOf('.') > -1) {
+                var str = result[i].replace('>', '').replace('<', '').split('.');
+                pcslist.push(str[1]);
+            }
+        }
+    }
+    return pcslist;
+}
+        // Added by Praveen :
+function replaceAllValues(splitArray, response, apexResult) {
+    console.log('in @@@@@' + splitArray + 'response is:)' + response);
+    var resultValue = apexResult.result;
+    var keys = Object.keys(resultValue);
+    console.log('result value:)' + JSON.stringify(resultValue) + '::keys are:)' + keys);
+    if (splitArray.length > 0) {
+        for (var i = 0; i <= splitArray.length - 1; i++) {
+            for (var j = 0; j <= keys.length - 1; j++) {
+                if (keys[j] == splitArray[i]) {
+                    var str = response.includes(splitArray[i]);
+                    response = response.replaceAll('<', '');
+                    response = response.replaceAll('>', '');
+                    if (str) {
+                        response = response.replace(keys[j], resultValue[keys[j]]);
+                    }
+                }
+            }
+        }
+    }
+    return response;
+}
+
+function getAbbworldParameters(data, callback) {
+    if (data.sessionAttributes != null && data.sessionAttributes != undefined) {
+        var errorMessage = JSON.parse(data.sessionAttributes.queryObject).errorMessage;
+        var queryObject = data.sessionAttributes.queryObject;
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.AbbWorldcontroller.getAbbworldParameters}', queryObject,
+            function(result, event) {
+                console.log('result is :)' + result);
+                if (result != null && result.length > 0) {
+                    console.log('Result in getAbbworldParameters' + result);
+                    return callback(result);
+                } else {
+                    console.log('result else  is :)' + result + ' ' + errorMessage);
+                    return callback(errorMessage);
+                }
+
+            }, {
+                escape: false
+            });
+    }
+}
+// **** End **** //
+        // Added By Praveen
+function processCaseActions(data, callback) {
+    var queryresult = '';
+    var queryObject = data.sessionAttributes.queryObject;
+    var newDispalyFormat = data.sessionAttributes.newDispalyFormat;
+    var escalatedDispalyFormat = data.sessionAttributes.escalatedDispalyFormat;
+    var closedDispalyFormat = data.sessionAttributes.closedDispalyFormat;
+    var rejectedDispalyFormat = data.sessionAttributes.rejectedDispalyFormat;
+    var newTitle = data.sessionAttributes.newTitle;
+    var escalatedTitle = data.sessionAttributes.escalatedTitle;
+    var rejectedTitle = data.sessionAttributes.rejectedTitle;
+    var resolvedTitle = data.sessionAttributes.resolvedTitle;
+    var noCasesMessage = data.sessionAttributes.noCasesMessage;
+    console.log('New ' + newTitle + ' Escalated ' + escalatedTitle + ' Rejected ' + rejectedTitle + ' ' + resolvedTitle);
+    Visualforce.remoting.Manager.invokeAction(
+        '{!$RemoteAction.AbbWorldcontroller.caseObject}', queryObject,
+        function(result, event) {
+            var resultString = noCasesMessage;
+            if (result.length > 0) {
+                var statusWiseCases = formatCaseStatusInformation(result);
+                var msggg = constructResultString(statusWiseCases, newDispalyFormat, escalatedDispalyFormat, closedDispalyFormat, rejectedDispalyFormat, newTitle, escalatedTitle, rejectedTitle, resolvedTitle);
+                //resultString = data.message + '@newline' + constructResultString(statusWiseCases, newDispalyFormat, escalatedDispalyFormat, closedDispalyFormat, rejectedDispalyFormat, newTitle, escalatedTitle, rejectedTitle, resolvedTitle);
+                resultString = constructResultString(statusWiseCases, newDispalyFormat, escalatedDispalyFormat, closedDispalyFormat, rejectedDispalyFormat, newTitle, escalatedTitle, rejectedTitle, resolvedTitle);
+                data.message = data.message.replace('<STATUS>',resultString);
+                callback(data.message);
+            } else {
+                callback(resultString);
+            }
+        });
+}
+
+function formatCaseStatusInformation(casesArray) {
+    var finalResultObject = {};
+    var waitingForResolution = [];
+    var escalated = [];
+    var resolved = [];
+    var rejected = [];
+    for (var i = 0; i <= casesArray.length - 1; i++) {
+        switch (casesArray[i].Status) {
+            case 'New':
+                waitingForResolution.push(casesArray[i]);
+                break;
+            case 'Working':
+                waitingForResolution.push(casesArray[i]);
+                break;
+            case 'On Hold-Waiting for answer':
+                waitingForResolution.push(casesArray[i]);
+                break;
+            case 'Escalated':
+                escalated.push(casesArray[i]);
+                break;
+            case 'Closed':
+                resolved.push(casesArray[i]);
+                break;
+            case 'Rejected':
+                rejected.push(casesArray[i]);
+                break;
+        }
+    }
+    if (waitingForResolution != null && waitingForResolution.length > 0) {
+        finalResultObject.waitingForResolution = waitingForResolution;
+    }
+    if (resolved != null && resolved.length > 0) {
+        finalResultObject.resolved = resolved;
+    }
+    if (escalated != null && escalated.length > 0) {
+        finalResultObject.escalated = escalated;
+    }
+    if (rejected != null && rejected.length > 0) {
+        finalResultObject.rejected = rejected;
+    }
+    return finalResultObject;
+}
+
+function constructResultString(cases, newDispalyFormat, escalatedDispalyFormat, closedDispalyFormat, rejectedDispalyFormat, newTitle, escalatedTitle, rejectedTitle, resolvedTitle) {
+    var finalString = "";
+    if (cases.waitingForResolution != null) {
+        finalString = "<b>" + newTitle + ":</b> <br />";
+        for (var i = 0; i <= cases.waitingForResolution.length - 1; i++) {
+            finalString += newDispalyFormat + '<br />'; //<CaseId>
+            finalString = finalString.replaceAll("<CaseSubject>", cases.waitingForResolution[i].Subject);
+            finalString = finalString.replaceAll("<CaseDate>", convertDateTimeStampToDate(cases.waitingForResolution[i].CreatedDate));
+            finalString = finalString.replaceAll("<CaseId>", cases.waitingForResolution[i].CaseNumber);
+        }
+    }
+    if (cases.resolved != null) {
+        finalString += "@newline";
+        finalString += "<b>" + resolvedTitle + "</b> <br />";
+        for (var i = 0; i <= cases.resolved.length - 1; i++) {
+            finalString += closedDispalyFormat + '<br />'; //<CaseId>
+            finalString = finalString.replaceAll("<CaseSubject>", cases.resolved[i].Subject);
+            finalString = finalString.replaceAll("<CaseDate>", convertDateTimeStampToDate(cases.resolved[i].CreatedDate));
+            finalString = finalString.replaceAll("<CaseId>", cases.resolved[i].CaseNumber);
+        }
+    }
+    if (cases.escalated != null) {
+        finalString += "@newline";
+        finalString += "<b>" + escalatedTitle + "</b> <br />";
+        for (var i = 0; i <= cases.escalated.length - 1; i++) {
+            finalString += escalatedDispalyFormat + '<br />'; //<CaseId>
+            finalString = finalString.replaceAll("<CaseSubject>", cases.escalated[i].Subject);
+            finalString = finalString.replaceAll("<CaseDate>", convertDateTimeStampToDate(cases.escalated[i].CreatedDate));
+            finalString = finalString.replaceAll("<CaseId>", cases.escalated[i].CaseNumber);
+        }
+    }
+    if (cases.rejected != null) {
+        finalString += "@newline";
+        finalString += "<b>" + rejectedTitle + "</b> <br />";
+        for (var i = 0; i <= cases.rejected.length - 1; i++) {
+            finalString += rejectedDispalyFormat + '<br />'; //<CaseId>
+            finalString = finalString.replaceAll("<CaseSubject>", cases.rejected[i].Subject);
+            finalString = finalString.replaceAll("<CaseDate>", convertDateTimeStampToDate(cases.rejected[i].CreatedDate));
+            finalString = finalString.replaceAll("<CaseId>", cases.rejected[i].CaseNumber);
+        }
+    }
+    return finalString;
+}
+
+function processQueryValues(values) {
+    var finalresult = '';
+    var length = values.length - 1;
+    for (var key in values) {
+        finalresult += 'CaseNumber :' + values[key].CaseNumber + ' ' + 'Status :' + values[key].Status + ' ' + ' Subject :' + values[key].Subject + ' ' + '</br>';
+        if (key == length) {
+            break;
+        }
+    }
+    return finalresult;
+}
+
+function convertDateTimeStampToDate(t) {
+    var dt = new Date(t);
+    var year = dt.getFullYear();
+    var month = dt.getMonth() + 1;
+    var date = dt.getDate();
+    var hr = dt.getHours();
+    var m = "0" + dt.getMinutes();
+    var s = "0" + dt.getSeconds();
+    return year + '-' + month + '-' + date;
+}
+        // Added By Praveen :
+function processdataToRemoteAction(data, callback) {
+    console.log('For brands the input is ');
+    console.log(JSON.stringify(data.sessionAttributes.queryObject));
+    var queryObject = data.sessionAttributes.queryObject;
+    queryObject = queryObject.replaceAll('MayaPackage__', '');
+    Visualforce.remoting.Manager.invokeAction(
+        '{!$RemoteAction.AbbWorldcontroller.genarate}', queryObject,
+        function(result, event) {
+            if (result != null && result != undefined && result.length > 0) {
+                var keys = Object.keys(result[0]);
+                currentBrand = data.sessionAttributes.currentBrand;
+                currentSpec = data.sessionAttributes.currentSpec;
+                currentSpecTwo = data.sessionAttributes.currentSpecTwo;
+                currentSpecThree = data.sessionAttributes.currentSpecThree;
+                var notFoundMessage = data.sessionAttributes.notFoundMessage;
+                var inputKeys = JSON.parse(queryObject).outputFields;
+                if (result.length == 1) {
+                    isFulfilled = "Fulfilled";
+                    console.log('Brands query result is from controller');
+                    console.log(JSON.stringify(result));
+                    var responseCards = data.responseCard;
+                    var finalresult = constructQueryAnswer(keys, result[0], responseCards != null && responseCards != undefined ? responseCards : "", inputKeys, notFoundMessage);
+                    if (responseCards != null && responseCards != "" && responseCards != undefined) {
+                        var buttons = processButtons(responseCards.genericAttachments);
+                        if (buttons.length > 0) {
+                            var proccessedString = processResponseCards(buttons);
+                            finalresult += proccessedString;
+                        }
+
+                    }
+                    callback(finalresult);
+                } else {
+                    var agentverification = "";
+                    finalMultiResult = constructMultipleObjectResult(keys, result, currentSpec, currentSpecTwo, currentSpecThree, currentBrand);
+                    callback(finalMultiResult);
+                }
+
+            } else {
+                appendToChatBox("I'm sorry, I didn't understand that. Can you rephrase your message?", 'imagecase', "", "");
+                enableInputBox();
+            }
+        });
+}
+
+function constructQueryAnswer(keys, totalAnswerArray, responseCards, queryInputkeys, notFoundMessage) {
+    var inputkeys = [];
+    if (queryInputkeys != null && queryInputkeys.length > 0) {
+        for (var t = 0; t <= queryInputkeys.length - 1; t++) {
+            var currentElement = "MayaPackage__" + queryInputkeys[t];
+            inputkeys.push(currentElement);
+        }
+        inputkeys.push('MayaPackage__BrandName__c');
+    }
+
+    var answer = "";
+    var message = isValid(notFoundMessage) ? notFoundMessage : "";
+    if (inputkeys != null && inputkeys != undefined) {
+        if (inputkeys.length >= 2) {
+            answer += "Here is what i found about " + totalAnswerArray.MayaPackage__BrandName__c + " <br />";
+            for (var i = 0; i < inputkeys.length; i++) {
+                if (inputkeys[i] != "Id" && inputkeys[i] != "MayaPackage__BrandName__c") {
+                    if (!isValid(totalAnswerArray[inputkeys[i].toString()]) || totalAnswerArray[inputkeys[i].toString()] == 'NA') {
+                        return message;
+                    } else {
+                        var currentKey = "<b>" + keySpecMap(inputkeys[i]) + " </b> : " + (totalAnswerArray[inputkeys[i].toString()] == 'NA' ? message : totalAnswerArray[inputkeys[i].toString()]) + " ";
+                        if (isValid(responseCards)) {
+                            answer += currentKey + " <br /> @newline Do you want more information about " + totalAnswerArray.MayaPackage__BrandName__c + "?";
+                        } else {
+                            answer += currentKey;
+                        }
+
+                    }
+                }
+            }
+        } else {
+            answer += "What details you want to know about " + totalAnswerArray.MayaPackage__BrandName__c + " <br /> @newline  I can help you with following";
+        }
+    }
+    return answer;
+}
+
+        // Added By Praveen :
+/*function sendMessageTosupervisor(inputText, finalresult, category, callback2) {
+    console.log('final result is:' + JSON.stringify(finalresult));
+    var agentverification = "";
+    var finalMessage;
+    var afterVerified;
+    sforce.connection.sessionId = '{!$Api.Session_ID}';
+    var c = new sforce.SObject('MayaPackage__CheckOnline__c');
+    var queryResult = [];
+    var queryString = "select MayaPackage__Online__c,id , MayaPackage__setTime__c from  MayaPackage__CheckOnline__c"; //"SELECT Id, IsActive__c FROM CheckOnline__c";
+    var results = sforce.connection.query(queryString);
+    records = results.getArray("records");
+    var activeStatus = records[0].MayaPackage__Online__c;
+    var setTime = parseInt(records[0].MayaPackage__setTime__c);
+    if (activeStatus === 'true') {
+        logEntriesInToSFDC(inputText, finalresult, category, agentverification, "", "", function(callback) {
+            console.log('callback value is' + callback + '####' + JSON.stringify(callback));
+            var response = JSON.parse(callback);
+            var recordId = response[0].id;
+            chaeckIfAgentIsRespondedOrNot(recordId, setTime, function(callback) {
+                if (callback != undefined) {
+                    var verifyStatus = callback.records.MayaPackage__Agent_Action__c;
+                    if (verifyStatus === "Verified") {
+                        afterVerified = callback.records.MayaPackage__Agent_Response__c;
+                        callback2(afterVerified);
+                    } else {
+                        var agentverification = "Missed";
+                        var updatevariable = "true";
+                        logEntriesInToSFDC(inputText, finalresult, category, agentverification, updatevariable, recordId, function(callback) {
+                            callback2(finalresult);
+                        });
+                    }
+                }
+            });
+        });
+    } else {
+        var agentverification = "Missed";
+        logEntriesInToSFDC(inputText, finalresult, category, agentverification, "", "", function(callback) {
+            callback2(finalresult);
+        });
+    }
+}*/
+        // Added By Praveen
+function appendLinkToMailIds(finalresult) {
+    var email = 0;
+    var extractedEmail = extractEmails(finalresult);
+    if (arrayValidity(extractedEmail)) {
+        for (email = 0; email <= extractedEmail.length - 1; email++) {
+            var replacableString = '<a href="' + "mailto:" + extractedEmail[email] + '">' + extractedEmail[email] + '</a>';
+            finalresult = finalresult.replace(extractedEmail[email].toString(), replacableString);
+        }
+    }
+    if (finalresult.indexOf("$link$")) {
+        var linkText = extractText(finalresult, "$link$");
+        var actualReplacingString = '$link$' + linkText + '$link$';
+        var replacableLinkString = '<a href="' + linkText + '" target="_blank">' + linkText + '</a>';
+        finalresult = finalresult.replace(actualReplacingString, replacableLinkString);
+    }
+    return finalresult;
+}
+
+function defineParamsString(currentSpec, currentSpecTwo, currentSpecThree) {
+    var paramsString = " ";
+    if (isValid(currentSpec)) {
+        paramsString += paramsString + currentSpec + " ";
+    }
+    if (isValid(currentSpecTwo)) {
+        paramsString += paramsString + currentSpecTwo + " ";
+    }
+    if (isValid(currentSpecThree)) {
+        paramsString += paramsString + currentSpecThree + " ";
+    }
+    return paramsString
+}
+
+
+function constructMultipleObjectResult(keys, totalAnswerArray, currentSpec, currentSpecTwo, currentSpecThree, currentBrand) {
+    var queryLabelString = "";
+    if (keys != null && keys.length > 3) {
+        keys.remove('MayaPackage__BrandName__c');
+        keys.remove('Id');
+        queryLabelString += "What are";
+    } else {
+        queryLabelString += "What is";
+    }
+    queryLabelString += defineParamsString(currentSpec, currentSpecTwo, currentSpecThree) + " of "
+    var answer = "";
+    var valueArray = [];
+    if (totalAnswerArray != null && totalAnswerArray != undefined) {
+        for (var i = 0; i < totalAnswerArray.length; i++) {
+            var valueObj = {};
+            valueObj.value = queryLabelString + totalAnswerArray[i].MayaPackage__BrandName__c;
+            valueObj.label = totalAnswerArray[i].MayaPackage__BrandName__c;
+            valueArray.push(valueObj);
+        }
+    }
+    answer = constructReferenceString(valueArray);
+    return answer;
+}
+
+function constructReferenceString(valueArray) {
+    var processString = "There is more than one brand with this name. Please select one. $$";
+    var lengthOfButtonsArray = valueArray.length - 1;
+    for (var i = 0; i <= lengthOfButtonsArray; i++) {
+        processString += valueArray[i].label + "@@" + valueArray[i].value;
+        if (lengthOfButtonsArray > i) {
+            processString += "##"
+        }
+    }
+    processString += "$$"
+    return processString
+}
+
+function constructButtons(valueArray) {
+    var processString = "There is more than one brand with this name. Please select one. $$";
+    var lengthOfButtonsArray = valueArray.length - 1;
+    for (var i = 0; i <= lengthOfButtonsArray; i++) {
+        processString += valueArray[i];
+        if (lengthOfButtonsArray > i) {
+            processString += "##"
+        }
+    }
+    processString += "$$"
+    return processString
+}
+// Added By Praveen
+function appendSupervisorMessageToChatBox(message, userInput, category) {
+    console.log('Messaeg !!!!!!!!' + message);
+    var newString;
+    if(message.indexOf('{username}') > -1){
+        message = message.replace('{username}',username);
+        newString =  message;
+    }
+    if(message){
+        if(message.indexOf('$$Create Case##Chat with agent$$') > -1){
+            message  =  message.replace('$$Create Case##Chat with agent$$','');
+            newString =  message;
+        }else{
+            newString =  message;
+        }
+    }
+
+    var strings = split2(newString, "@newline");
+    console.log('length is ::::'+strings.length);
+    for (var i = 0; i <= strings.length - 1; i++) {
+        setTimeout(function(s, count, len, str) {
+            if (count > 0) {
+                setTimeout(function() {
+                    $("body").find("#chatingimage").remove();
+
+                    appendToChatBox(s, 'imagecase', "with Out Icon");
+                    if (count == len) {
+                        enableInputBox();
+                    }
+                }, 1500);
+            } else {
+                if (count == len) {
+                    enableInputBox();
+                }
+
+                appendToChatBox(s, 'imagecase', "");
+                /* setTimeout(function() {
+                    if (strings.length > 1) {
+                        $('<div class="relative"><div class="chatwindow messages msg_receive" style="display: inline-block; padding: 0 15px" id="chatingimage"><span><img src="/resource/1521312884000/MayaPackage__newloading" alt="loading" style="width: 35px"/></span></div></div>').insertAfter($("body").find(".base_receive").last())
+                    }
+                }, 1500);*/
+            }
+        }, (i) * 1500, strings[i], i, strings.length - 1, "with Out Icon")
+    }
+    logEntriesInToSFDC(userInput, message, category, "", "", "", "");
+    LogEntries(message, "Bot");
+}
+
+
+function chaeckIfAgentIsRespondedOrNot(recordId, setTime, callback) {
+    var noOfIterations = (setTime * 1000) / 5000;
+    var AgentText = {};
+    count++;
+    AgentText = getAgentText(recordId);
+    var agentresponse = AgentText.records.MayaPackage__Agent_Action__c;
+    var Agentresponse = AgentText.records.MayaPackage__Agent_Response__c;
+    if (agentresponse == "Not Verified") {
+        if (count >= noOfIterations) {
+            count = -1;
+            return callback(AgentText);
+        }
+        setTimeout(chaeckIfAgentIsRespondedOrNot, 5000, recordId, setTime, callback);
+    } else {
+        count = -1;
+        callback(AgentText);
+    }
+
+}
+
+function getAgentText(recordId) {
+    sforce.connection.sessionId = '{!$Api.Session_ID}';
+    var c = new sforce.SObject('MayaPackage__ChatLog__c');
+    var queryResult = [];
+    var queryString = "SELECT MayaPackage__Agent_Response__c, MayaPackage__Agent_Action__c FROM MayaPackage__ChatLog__c where Id= '" + recordId + "'";
+    var result = sforce.connection.query(queryString);
+    var agenttext = result.records.MayaPackage__Agent_Action__c;
+    return result;
+}
+
+function extractEmails(text) {
+    return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+
+}
+
+function getResponseCategory(data) {
+    if(data){
+    var category = "Non-Informative";
+    if (data.dialogState === "Failed") {
+        category = "Failed"
+    } else {
+        if (data.sessionAttributes && 
+            data.sessionAttributes.hasOwnProperty('Category')) {
+            if (data.sessionAttributes.Category === "undefined" || data.sessionAttributes.Category === "") {
+                category = "Non-Informative"
+            } else {
+                category = data.sessionAttributes.Category
+            }
+        }
+    }
+        }
+    if (isValid(category))
+        return category;
+    else return "";
+}
+
+function arrayValidity(userArray) {
+    if (userArray != null && userArray != undefined && userArray.length > 0)
+        return true;
+    return false;
+
+}
+
+function extractText(str, delimiter) {
+    if (str && delimiter) {
+        var firstIndex = str.indexOf(delimiter) + delimiter.length;
+        var lastIndex = str.
+        lastIndexOf(delimiter);
+        str = str.substring(firstIndex, lastIndex);
+    }
+    return str;
+}
+
+function processResponseCards(buttons) {
+    var processString = "$$";
+    var lengthOfButtonsArray = buttons.length - 1;
+    var i = 0;
+    $(buttons).each(function() {
+        var currentElement = this;
+        var text = currentElement.text;
+        processString += text;
+        if (lengthOfButtonsArray > i) {
+            processString += "##"
+        }
+        i++
+    });
+    processString += "$$"
+    return processString
+}
+
+function split2(str, delim) {
+    var myArray = [];
+    if (str.indexOf(delim) > -1) {
+        myArray = str.split(delim);
+    } else {
+        myArray.push(str)
+    }
+    return myArray
+}
+
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16)
+    })
+}
+
+function logEntriesInToSFDC(question, answer, catagory, agentverification, updatevariable, recordId) {
+    try {
+
+        sforce.connection.sessionId = '{!$Api.Session_ID}';
+        var c = new sforce.SObject('MayaPackage__ChatLog__c');
+        if (updatevariable === '') {
+
+            // c.MayaPackage__UserId__c = userid;
+            // c.MayaPackage__UserName__c = username;
+            c.MayaPackage__User__c = userid;
+            c.MayaPackage__Answer__c = answer;
+            c.MayaPackage__Conversation_Id__c = localStorage.conversationId;
+            c.MayaPackage__Question__c = question;
+            c.MayaPackage__Catagory__c = catagory;
+            c.MayaPackage__Agent_Response__c = answer;
+            c.MayaPackage__Division__c = userdivision; // added on 23rd May 2018
+            c.MayaPackage__Browser__c = type.useragent;
+            c.MayaPackage__OS__c = type.os;
+            c.MayaPackage__Device__c = type.device;
+            // c.MayaPackage__AgentChat_log__c = liveagentresponse;
+            if (agentverification != null && agentverification != "" && agentverification != undefined) {
+                c.MayaPackage__Response_State__c = agentverification;
+            }
+            var result = sforce.connection.create([c]);
+            callback(JSON.stringify(result));
+        } else {
+
+            c.id = recordId;
+            c.MayaPackage__Response_State__c = agentverification;
+            var result = sforce.connection.update([c]);
+            callback(JSON.stringify(result));
+        }
+
+
+    } catch (e) {
+        // console.log("Exception in logEntriesInToSFDC :)" + e)
+    }
+}
+
+function LogEntries(message, source, state, intentName, category, responseParametrs, stateType) {
+    var logObject = {};
+    logObject.botId = lex_bot_name;
+    logObject.message = message;
+    logObject.msgTimeStamp = new Date().getTime();
+    logObject.userId = userid;
+    logObject.intentName = intentName;
+    logObject.messageType = 'text';
+    logObject.state = state;
+    logObject.source = source;
+    logObject.conversationId = localStorage.conversationId;
+    logObject.sessionToken = localStorage.sessionToken;
+    logObject.clientBrowser = browserName;
+    logObject.clientIPAddress = ipAddress;
+    logObject.category = category;
+    logObject.responseparams = responseParametrs;
+    logObject.statetype = stateType;
+
+    var postUrl = 'https://api.smartbots.us/ChatLog';
+    $.ajax({
+        url: postUrl,
+        type: "POST",
+        data: logObject,
+        success: function(data) {
+            // console.log('Successfully logged :)  The ' + source + ' response is ==> ' + data)
+        },
+        error: function(data) {
+            // console.log('Error in logging  :(  The ' + source + 'response is ==> ' + data)
+        }
+    });
+
+}
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement)
+};
+
+function clearSentValue() {
+    var userInput = document.getElementById("usermsg");
+    userInput.value = ""
+}
+
+function appendToChatBox(text, user, icon, agentname) {
+    addTimeToChatWindow();
+    var processedResp = processText(text);
+    message = processedResp.message;
+    buttonList = processedResp.buttons;
+    buttontext = processedResp.textmap;
+    formattedDate = getTimeStamp();
+    if (buttonList.length > 0) {
+        if (buttonList[0] == 'Yes' && buttonList[1] == 'No') {
+            document.getElementById("usermsg").disabled = true;
+        } else {
+            document.getElementById("usermsg").disabled = false;
+        }
+    }
+
+    if (icon == "") {
+        postMessageToChatBox(message, "");
+    } else {
+        postMessageToChatBox(message, "with Out Icon");
+    }
+
+    if (buttonList.length) {
+        htmlcode += '<div class="parent1 animated fadeIn row msg_container base_receive animated fadeIn adjucent_message "><div class="relative button_holder">';
+        var initialButtonCount = buttonGlobalCount;
+        var finalButtonCount = buttonGlobalCount + buttonList.length;
+        for (var i = 0; i < buttonList.length; i++) {
+            htmlcode += '<button id="btn' + buttonGlobalCount + '" value="' + buttonList[i] + '" class="btn-outline-primary btnRemove" onclick="postBtnContent(\'' + buttonList[i] + '\', ' + initialButtonCount + ', ' + finalButtonCount + ')">' + buttonList[i] + '</button>'
+        }
+        htmlcode += '</div></div>';
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    }
+    if (text.toLowerCase().trim() === "chat with agent" || text.toLowerCase().trim() === "chat with associate") {
+        handle = "AGENT";
+        clearSentValue();
+        reDirectingToLiveAgent();
+    }
+    $(".msg_sent").animate({
+        border: "3px solid red"
+    }, 1000);
+
+    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+}
+
+function addTimeToChatWindow() {
+    var d = new Date();
+    var currenttime = d;
+    var dateTime = getTimeStamp();
+    var timeDiff = (currenttime - reportedTime);
+    if (timeDiff > 180000) {
+        $('<div class="showtimes row" id="showtime"><span>' + dateTime + '</span></div>').insertAfter($("body").find(".base_receive").last());
+        reportedTime = currenttime
+    }
+}
+
+function isValid(checkValue) {
+    if (checkValue !== null && checkValue !== "" && checkValue !== undefined) {
+        return !0
+    }
+    return !1
+}
+        // Added By Praveen
+function reDirectingToLiveAgent() {
+    var respObj = getSession(function(callback) {
+        var nextres = JSON.stringify(callback).replace(/\\/g, "").replace('"{"key"', '{"key"');
+        var final = nextres.replace('"}"}', '"}}')
+        respObj = JSON.parse(final);
+        localStorage.sessionKey = respObj.data.key;
+        localStorage.sessionId = respObj.data.id;
+        localStorage.afinityToken = respObj.data.affinityToken;
+        console.log(" sessionkey: " + localStorage.sessionKey + "\n sessionId:" + localStorage.sessionId + "\n affinityToken:" + localStorage.afinityToken)
+        if (localStorage.sessionKey !== null && localStorage.sessionKey !== '' && localStorage.sessionId !== null && localStorage.sessionId !== '') {
+            chatInIt(localStorage.sessionKey, localStorage.sessionId, localStorage.afinityToken, function(callback) {
+                console.log("callack is ::::" + callback);
+                var cahtInItResult = JSON.stringify(callback).replaceAll(/\\/g, "").replace('""OK""', '"OK"');
+                if (JSON.parse(cahtInItResult).data == "OK") {
+                    pingLiveAgent(localStorage.afinityToken, localStorage.sessionKey);
+
+                }
+            });
+
+        }
+    });
+}
+
+function postBtnContent(val, start, end) {
+    $("body").find(".btnRemove").attr("onclick", "return false").remove();
+    var stringvalue = val;
+    var retunIndex;
+    setYesNobuttons();
+    test = false;
+    for (var i = 0; i < buttonList.length; i++) {
+        if (val == buttonList[i]) {
+            retunIndex = i;
+            for (var j = 0; j < buttontext.length; j++) {
+                val = isValid(buttontext[retunIndex]) ? buttontext[retunIndex] : buttonList[retunIndex];
+            }
+        } else {
+            val = val;
+        }
+    }
+    var decodedVal = (val);
+    console.log('decode val is :'+decodedVal);
+    if (decodedVal != null && decodedVal.toLowerCase().trim() == "chat with agent" || decodedVal.toLowerCase().trim() == "chat with associate") {
+        handle = "AGENT";
+        clearSentValue();
+        reDirectingToLiveAgent();
+
+    }
+    else {
+        getLexBotResponse(decodedVal)
+    }
+    var ButtonsJSON = {
+        'message': {
+            'text': stringvalue,
+            'alignment': 'RIGHT'
+        }
+    };
+    var yesnojson = {
+        'message': {
+            'text': stringvalue,
+            'alignment': 'LEFT'
+        }
+    };
+    if (val == 'yes') {
+        appendMessageToChatBox(yesnojson);
+    } else if (val == 'no') {
+        caseCreationWithOutFileAttachment();
+    } else {
+        appendMessageToChatBox(ButtonsJSON);
+    }
+
+    if (handle === 'AGENT') {
+        enableInputBox();
+    } else {
+        disableInputBox();
+    }
+}
+
+function processText(text) {
+    var resp = {
+        message: text,
+        buttons: [],
+        textmap: []
+    };
+
+    if (text.indexOf("$$") > -1) {
+        var parts = text.split("$$");
+        var msg = parts[0];
+        var buttonsList = (parts.length > 1) ? parts[1].split("##") : [];
+        for (var i = 0; i < buttonsList.length; i++) {
+            if (buttonsList[i].indexOf("@@", 0)) {
+                var textlist = buttonsList[i].split("@@");
+                resp.buttons.push(textlist[0]);
+                resp.textmap.push(textlist[1]);
+            } else {
+                resp.buttons.push(buttonsList[i]);
+
+            }
+        }
+        resp.message = msg;
+    }
+    return resp;
+}
+        // Added  By Praveen
+function caseCreationWithOutFileAttachment() {
+    console.log('without file attachment :)');
+    var queryObject = JSON.stringify({
+        subject: userinputs[0],
+        description: userinputs[1],
+        origin: caseOrigin,
+        emial: UserEmail,
+    });
+    console.log('query object is:)' + JSON.stringify(queryObject));
+    Visualforce.remoting.Manager.invokeAction(
+        '{!$RemoteAction.AbbWorldcontroller.insertImage}', queryObject,
+        function(result, event) {
+            if (result != null && result != '') {
+                setTimeout(function() {
+                    appendToChatBox('Your case got created! Your Case Number is ' + result + '. Please use this for further reference.', 'imagecase', "");
+                    enableInputBox();
+                }, 2000);
+                console.log('result  is @@' + result);
+            }
+        }
+    );
+    userinputs = [];
+
+}
+
+function getTimeStamp() {
+    var date = new Date(Date.now()),
+        formattedDate;
+    return handleSingleDigit(handleHours(date.getHours())) + ":" + handleSingleDigit(date.getMinutes()) + " " + (date.getHours() < 12 ? "AM" : "PM");
+
+    function handleSingleDigit(num) {
+        return ((num.toString().length === 1) ? "0" + num : num)
+    }
+
+    function handleHours(hours) {
+        hours = (hours > 12 ? hours - 12 : hours);
+        if (hours.toString() === "0") hours = "12";
+        return hours
+    }
+}
+
+        // Added By Praveen
+function uploadFile() {
+    console.log('uploading :::');
+    var filelen = document.getElementById("myFile").files.length;
+    if (filelen == 0) {
+        alert('please choose file ...');
+    } else {
+        var thefile = document.getElementById('myFile');
+        var fileName = thefile.value.split(/(\\|\/)/g).pop();
+        var parts = fileName.split(".");
+        var fileNameWithOutExtension = parts[0];
+        document.getElementById("inputfile").style.display = 'none';
+        var base64data = "";
+        var file = $('#myFile')[0].files[0];
+        var fileReader = new FileReader();
+        fileReader.onloadend = function(e) {
+            var arrayBuffer = e.target.result;
+            var fileType = "image/png";
+            blobUtil.arrayBufferToBlob(arrayBuffer, fileType).then(function(blob) {
+                var base64data = "";
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = function() {
+                    base64data = reader.result;
+                    console.log('Decoded blob data : ' + base64data);
+                    var queryObject = JSON.stringify({
+                        subject: userinputs[0],
+                        description: userinputs[1],
+                        fileType: fileType,
+                        origin: caseOrigin,
+                        //recordtype:caseRecordType,
+                        emial: UserEmail,
+                        blobData: base64data,
+                        filename: fileNameWithOutExtension
+                    }); //`{"description":"testdesc", "subject":"testSub", "image":"testimage"}`;//JSON.stringify({subject:userinputs[0],description:userinputs[1],image: image});
+                    console.log('Query Object is' + JSON.stringify(queryObject));
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.AbbWorldcontroller.insertImage}', queryObject,
+                        function(result, event) {
+                            console.log('Result is ' + result);
+                            if (result != null && result != '') {
+                                appendTypingToChatBox();
+                                var message = 'Your file uploaded successfully';
+                                setTimeout(function() {
+                                    // appendToChatBox('Your file uploaded successfully', 'imagecase', "");
+                                    document.getElementById('chatbox').lastChild.innerHTML = "<div class='row msg_container base_receive animated fadeIn'><div class='avatar'><img src='/resource/1515783125000/MayaPackage__ProfileW' style='width:35px;'><span style='display: block;font-size: 11px;color: #999;'>Maya</span></div><div class='relative'><div class='messages msg_receive'><p>" + message + "</p></div><div class='timeLLbl'></div></div></div>";
+                                }, 2000)
+                                setTimeout(function() {
+                                    appendToChatBox('Your case got created! Your Case Number is ' + result + '. Please use this for further reference.', 'imagecase', "");
+                                }, 3000);
+                            }
+                            userinputs = [];
+                        }
+
+                    );
+                }
+                //reader.readAsArrayBuffer(file);
+            }).catch(console.log.bind(console));
+        };
+        fileReader.readAsArrayBuffer(file);
+        enableInputBox();
+    }
+}
+
+function appendToBrowserLog(utterance, participant) {
+    var thisUtteranceMap = {
+        'participant': participant,
+        'utterance': utterance,
+        'timeStamp': getTimeStamp()
+    };
+    chatLog.push(thisUtteranceMap);
+    // sessionAttributes.chatDescription += participant + ":" + utterance + "\n";
+    if (participant === userName) {
+        sessionAttributes.latestUserQuery = nMinuOneUtterance.participant + ":" + nMinuOneUtterance.utterance + "\n";
+        nMinuOneUtterance = thisUtteranceMap
+    }
+}
+        // Added By Praveen
+function appendMessageToChatBox(responseJSON) {
+
+    addTimeToChatWindow();
+    if (isValid(responseJSON.message.text)) {
+        $('#chatbox').append(
+            createHTMLChatElement(responseJSON.message.text,
+                responseJSON.message.alignment, responseJSON.message.agentname));
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    }
+    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+}
+
+function createHTMLChatElement(message, alignment, agent) {
+    var htmlElement = "";
+    if (alignment == "LEFT") {
+        if (message == "yes" && handle != 'AGENT') {
+            setTimeout(function() {
+                document.getElementById('chatbox').lastChild.innerHTML = "<div id ='inputfile' class='alert alert-info'><div class='clearfix'><input type='file' class='form-control pull-left' style='display: inline-block; width: 40%;' id='myFile' value=''/><input type ='button' id = 'button' value='upload' class='btn-new btn-info pull-right' onclick ='uploadFile()'></div></div>";
+            }, 1500);
+        } else if (agent != null && agent != '') {
+            htmlElement = "<div class='row msg_container base_receive'><div class='avatar'><img src='/resource/1515783125000/MayaPackage__Agent' style='width:35px;'><span style='display: block;font-size: 11px;color: #999;'>" + agent + "</span></div><div class='relative'><div class='messages msg_receive'><p>" + message + "</p></div><div class='timeLLbl'></div></div></div>";
+        } else {
+
+            htmlElement = "<div class='row msg_container base_receive animated fadeIn'><div class='avatar'><img src='/resource/1515783125000/MayaPackage__ProfileW' style='width:35px;'><span style='display: block;font-size: 11px;color: #999;'>Maya</span></div><div class='relative'><div class='messages msg_receive'><p>" + message + "</p></div><div class='timeLLbl'></div></div></div>";
+
+        }
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    } else {
+        htmlElement = "<div><div class='row msg_container base_sent  animated slideInRight'><div class='relative'><div class='messages msg_sent'><p>" + message + "</p></div></div><div class='avatarUser'><img src='/resource/1515783125000/MayaPackage__User' style='width:35px;'></div></div><span class='timeRLbl'></span></div>";
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    }
+
+    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    return htmlElement;
+}
+
+function postMessageToChatBox(message, icon) {
+
+    setTimeout(function() {
+        appendMsgToLastChildOfDiv(message, icon);
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    }, 500);
+}
+
+function appendTypingToChatBox() {
+     setTimeout(function() {
+        var typinggif = "<div class='relative'><div class='chatwindow messages msg_receive' style='display: inline-block; padding: 0 15px;' id='chatingimage'><span><img src='/resource/1521312884000/MayaPackage__newloading' alt='loading' style='width: 35px;'/></span></div></div>";
+         var bubblevalue  = $('body').find('#chatingimage').text();
+         console.log('bubblevalue is :)'+bubblevalue);
+         //if(!bubblevalue){
+         // fillEmptyBubble();
+         //}
+        $('#chatbox').append(typinggif);
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+     }, 500);
+
+}
+
+        // Added By Praveen
+        function  fillEmptyBubble(){
+           console.log($('body').find('#chatingimage'));
+          setTimeout(function() {
+              if($('body').find('#chatingimage')){
+            appendSupervisorMessageToChatBox('Please hold on for few more seconds');
+                  }
+          },15000);
+          setTimeout(function(){
+              if($('body').find('#chatingimage')){
+            appendSupervisorMessageToChatBox('Thank you for your patience while I worked on addressing your query. However I was unable to find the right answer. Try rephrasing your query. You can crease a case or chat with an associate. $$Create case##Chat with Associate$$');                         
+              }    
+              },30000);
+        }
+        
+
+
+function disableInputBox() {
+    document.getElementById("usermsg").disabled = true;
+}
+
+function enableInputBox() {
+    document.getElementById("usermsg").disabled = false;
+    $("#usermsg").focus();
+}
+
+function appendMsgToLastChildOfDiv(message, icon) {
+    var htmlcode1;
+    if (icon === "with Out Icon") {
+        console.log('@!@!@!@!@!@');
+        if (message != null && message != '' && message != undefined) {
+            // message = message.toLowerCase().trim();
+            if (message.toLowerCase().trim() != 'chat with agent' && message.toLowerCase().trim() != 'chat with associate') {
+                htmlcode1 = "<div class='row msg_container base_receive animated fadeIn adjucent_message'><div class='relative' style='margin-left:35px;'><div class='messages msg_receive'><p>" + message + "</p></div></div></div>";
+                $('#chatbox').append(htmlcode1).fadeIn(100);
+            }
+        }
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+        $('#chatbox').append(htmlcode).fadeIn(100);
+        htmlcode = '';
+        } else {
+         console.log('#@#@#@#@#@#@');
+        document.getElementById('chatbox').lastChild.innerHTML = "<div class='row msg_container base_receive animated fadeIn'><div class='avatar'><img src='/resource/1515783125000/MayaPackage__ProfileW' style='width:35px;'><span style='display: block;font-size: 11px;color: #999;'>Maya</span></div><div class='relative'><div class='messages msg_receive'><p>" + message + "</p></div><div class='timeLLbl'></div></div></div>";
+        $('#chatbox').append(htmlcode).fadeIn(100);
+        htmlcode = '';
+    }
+    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+    //disableInputBox();
+}
+
+// Added By Praveen :
+var SBUrl = "{!$Setup.MayaPackage__BotSettings__c.MayaPackage__LiveAgentRoutingServer__c}";
+console.log('sburl is:)' + SBUrl);
+var ack = -1;
+var pc = 0;
+var messagefrom = 'Live Associate';
+
+function getSession(callback) {
+    console.log('sburl is:)))))' + SBUrl);
+    var result;
+    var affinity = 'null';
+    var version = "40";
+    var flag = 'true';
+    var IndicationMessage = 'Sure! Let me check if any associate is available, please wait for few seconds.';
+    setTimeout(function() {
+        var usermsg = {
+            'message': {
+                'text': IndicationMessage,
+                'alignment': 'LEFT'
+            }
+        };
+        appendMessageToChatBox(usermsg);
+        setTimeout(function() {
+            $('<div class="chatwindow" id="chatingimage"><span>Looking for associate ...</span></div>').insertAfter($("body").find(".base_receive").last());
+        }, 2000);
+
+    }, 1000);
+
+    var dataParams = {
+        'header': {
+            'Content-Type': 'application/json',
+            'X-LIVEAGENT-AFFINITY': affinity,
+            'X-LIVEAGENT-API-VERSION': version
+        },
+        'body': {},
+        'urlParams': {},
+        'SBUrl': 'System/SessionId'
+    };
+
+    $.ajax({
+        data: dataParams,
+        url: SBUrl + '/get',
+        type: 'GET',
+        contentType: 'application/json',
+
+        success: function(data) {
+            result = data;
+            console.log("Session Details: " + JSON.stringify(data));
+
+            callback(data);
+        },
+        error: function() {
+            console.log("Error in getSession  method::::");
+
+            setTimeout(function() {
+                $("body").find("#chatingimage").remove();
+                var usermsg = {
+                    'message': {
+                        'text': " Something went wrong while connecting to agent. Please try again after some time",
+                        'alignment': 'LEFT'
+                    }
+                };
+                var message = usermsg.message.text;
+                // LogEntriesForLiveAssociateChat(message, messagefrom, "");
+                appendMessageToChatBox(usermsg);
+                handle = "BOT";
+            }, 3000);
+        }
+    });
+
+    //  return result;
+}
+
+function chatInIt(sessionKey, sessionId, afinityToken, callback) {
+
+    var result;
+    var version = "40";
+    var sequence = "1";
+    console.log("chatinit is ::::::::" + afinityToken);
+
+    var dataParams = {
+        'header': {
+            'X-LIVEAGENT-AFFINITY': afinityToken,
+            'X-LIVEAGENT-API-VERSION': version,
+            'X-LIVEAGENT-SESSION-KEY': sessionKey,
+            'X-LIVEAGENT-SEQUENCE': sequence
+        },
+        'body': {
+            "sessionId": sessionId,
+            "userAgent": '', //"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36",
+            "language": '', //"en-US",
+            "screenResolution": '', //"1366x768",
+            "visitorName": isValid(LastName) ? LastName : '', //"jp",
+            "prechatDetails": '[]',
+            "buttonOverrides": '[]',
+            "receiveQueueUpdates": "true",
+            "prechatEntities": '[]',
+            "isPost": "true"
+
+        },
+        'urlParams': {
+            'sessionKey': sessionKey,
+            'sessionId': sessionId,
+            'afinityToken': afinityToken,
+            'sequence': sequence,
+            'flag': '1'
+
+        },
+        'SBUrl': 'Chasitor/ChasitorInit'
+    };
+    console.log("data params is::" + JSON.stringify(dataParams));
+    $.ajax({
+        data: dataParams,
+        url: SBUrl + '/post',
+        type: 'POST',
+        //contentType: 'application/json',
+        dataType: 'json',
+        success: function(data) {
+            console.log("data in chatinit is:::" + JSON.stringify(data));
+            result = JSON.stringify(data).replace(/\\/g, "").replace('""OK""', '"OK"');
+            console.log("result is:::" + result);
+            var finalResult = JSON.parse(result);
+            console.log("status code is:::" + finalResult.resp);
+            callback(data);
+        },
+        error: function() {
+            console.log("Error in chasitor init method::::");
+        }
+
+    });
+
+}
+
+function pingLiveAgent(afinityToken, sessionKey) {
+    console.log("Pinging live agent");
+    var version = "40";
+    var iterationCount = 0;
+    var dataParams = {
+        'header': {
+            'Content-Type': 'application/json',
+            'X-LIVEAGENT-AFFINITY': afinityToken,
+            'X-LIVEAGENT-API-VERSION': version,
+            'X-LIVEAGENT-SESSION-KEY': sessionKey,
+        },
+        'body': {},
+        'urlParams': {},
+        'SBUrl': 'System/Messages' + "?ack=" + ack + "&pc=" + pc
+    };
+
+    console.log("befor updation ack is" + ack + " &pc is :::" + pc);
+    pc = pc + 1;
+    $.ajax({
+        data: dataParams,
+        url: SBUrl + '/get',
+        type: 'GET',
+        contentType: 'application/json',
+
+        success: function(resp) {
+            if (resp !== null) {
+                console.log("response from pingLiveAgent :)" + JSON.stringify(resp));
+                var finaldata = JSON.stringify(resp).replace(/\\/g, "").replace('"{', "{").replace('}"', "}");
+                var response = JSON.parse(finaldata);
+                console.log("final response from pingLiveAgent :)" + JSON.stringify(response));
+                if (response !== null || response !== undefined) {
+                    if (response.data.messages) {
+                        var count = response.data.messages.length; // Object.keys(response.messages).length;
+                        var agentName = 'Agent';
+                        for (var i = 0; i < count; i++) {
+                            console.log("message type is:::" + response.data.messages[i].type);
+                            iterationCount++;
+                            if (response.data.messages[i].type === "ChatEstablished") {
+                                $("body").find("#chatingimage").remove();
+                                agentName = response.data.messages[i].message.name;
+                                console.log("agent name is!!!!!!!!!!!!!!!!!!!!!" + agentName);
+                                var usermsg = {
+                                    'message': {
+                                        'text': agentName + " is ready to assist you further",
+                                        'alignment': 'LEFT',
+                                        'agentname': agentName
+                                    }
+                                };
+                                var message = usermsg.message.text;
+                                var userid = agentName;
+                                //LogEntriesForLiveAssociateChat(message, messagefrom, userid);
+                                appendMessageToChatBox(usermsg);
+                                enableInputBox();
+                                var EmpId = '{!$User.EmployeeNumber}';
+                                var input = 'Hello, I am' + ' {!$User.FirstName} ' + '{!$User.LastName}.' + ' My Employee number is ' + EmpId;
+                                postMessageToLiveAgent(input, sequence, afinityToken, sessionKey);
+                                enableInputBox();
+                                if (nMinuOneUtterance.length !== null && nMinuOneUtterance.length !== ({}) && nMinuOneUtterance.length > 0) {
+                                    enableInputBox();
+                                } else {
+                                    //do nothing
+                                }
+                            }
+                            console.log('response code is:::' + response.resp)
+                            if (response.data.messages[i].type === "ChatMessage") {
+                                agentName = response.data.messages[i].message.name;
+                                var usermsg = {
+                                    'message': {
+                                        'text': response.data.messages[i].message.text,
+                                        'alignment': 'LEFT',
+                                        'agentname': agentName
+                                    }
+                                };
+                                appendMessageToChatBox(usermsg);
+                                // enableInputBox();
+                                var userid = agentName;
+                                var message = usermsg.message.text;
+                            }
+                            if (response.data.messages[i].type === "ChatEnded") {
+                                var usermsg = {
+                                    'message': {
+                                        'text': 'I am sure your query is addressed by our associate. Do you have anything more I can assist you with?',
+                                        'alignment': 'LEFT'
+
+                                    }
+                                };
+                                var message = usermsg.message.text;
+                                var userid = agentName;
+                                // LogEntriesForLiveAssociateChat(message, messagefrom, userid);
+                                appendMessageToChatBox(usermsg);
+                                appendToChatBox("$$Yes@@help##No@@give me feedback$$");
+                                handle = "BOT";
+                            }
+                            if (response.data.messages[i].type === "ChatRequestFail") {
+                                $("body").find("#chatingimage").remove();
+                                setTimeout(function() {
+                                    var finslmsg = "I am sorry! Associates are offline at this time."
+                                    var usermsg = {
+                                        'message': {
+                                            'text': finslmsg,
+                                            'alignment': 'LEFT'
+                                        }
+                                    };
+                                    var message = finslmsg;
+                                    // LogEntriesForLiveAssociateChat(message, messagefrom, "");
+                                    appendMessageToChatBox(usermsg);
+                                    appendToChatBox("$$create case$$");
+                                }, 2000);
+
+                                handle = "BOT";
+                                ack = -1;
+                                pc = 0;
+                                sequence = 1;
+                            }
+                            if (iterationCount = 1) {
+                                ack = ack + 1;
+                            } else {
+                                ack = ack + response.data.sequence;
+                            }
+                        }
+                    }
+                }
+                if ((response.resp == "200" || response.resp == "204") && (handle == 'AGENT')) {
+                    console.log('status code is::::' + response.resp);
+                    pingLiveAgent(afinityToken, sessionKey);
+                }
+
+            }
+
+        },
+        error: function(err) {
+            console.log("error in pingLiveAgent" + JSON.stringify(err));
+            if (err.status == '0') {
+                console.log("error in postMessageToLiveAgent" + (err));
+                var usermsg = {
+                    'message': {
+                        'text': " Something went wrong while connecting to agent. Please try again after some time",
+                        'alignment': 'LEFT'
+                    }
+                };
+                var message = usermsg.message.text;
+                // LogEntriesForLiveAssociateChat(message, messagefrom, "");
+                appendMessageToChatBox(usermsg);
+                handle = "BOT";
+            }
+        }
+    });
+
+}
+
+function postMessageToLiveAgent(inputText, sequence, afinityToken, sessionKey) {
+    console.log('postMessageToLiveAgent ' + inputText + 'sequence is ::' + sequence);
+    var version = "40";
+    var dataParams = {
+
+        'header': {
+            'Content-Type': 'application/json',
+            'X-LIVEAGENT-AFFINITY': afinityToken,
+            'X-LIVEAGENT-API-VERSION': version,
+            'X-LIVEAGENT-SESSION-KEY': sessionKey
+        },
+        'body': {},
+        'urlParams': {},
+        'SBUrl': 'Chasitor/ChatMessage',
+        'inputtype': inputText
+    };
+
+    console.log("dataparam is:" + JSON.stringify(dataParams));
+    $.ajax({
+        data: dataParams,
+        url: SBUrl + '/post',
+        type: 'POST',
+        dataType: 'json',
+        async: true,
+        success: function(res) {
+            console.log("Response Details: " + JSON.stringify(res.resp));
+            if (res != null && res != '' && res != undefined && res.resp == '403') {
+                var finslmsg = "Looks like our 1Point Associate is away. Do you want me to create a case?"
+                var usermsg = {
+                    'message': {
+                        'text': finslmsg,
+                        'alignment': 'LEFT'
+                    }
+                };
+                var message = usermsg.message.text;
+                // LogEntriesForLiveAssociateChat(message, messagefrom, "");
+                appendMessageToChatBox(usermsg);
+                appendToChatBox("$$create case$$");
+                handle = "BOT";
+            }
+        },
+        error: function(err) {
+            if (err.status == '0') {
+                console.log("error in postMessageToLiveAgent" + (err));
+                var usermsg = {
+                    'message': {
+                        'text': " Something went wrong while connecting to agent. Please try again after some time",
+                        'alignment': 'LEFT'
+                    }
+                };
+                var message = usermsg.message.text;
+                // LogEntriesForLiveAssociateChat(message, messagefrom, "");
+                appendMessageToChatBox(usermsg);
+                handle = "BOT";
+            }
+        }
+    });
+}
+
+function processLogForLiveAgent(chatLog) {
+    var processedLogAsText = "";
+    for (var i = 0; i < chatLog.length; i++) {
+        if (chatLog[i].particiapant === userName) {
+            processedLogAsText += 'Visitor: ' + chatLog[i].utterance + "\n";
+        } else {
+            processedLogAsText += 'Bot: ' + chatLog[i].utterance + "\n";
+        }
+    }
+    return processedLogAsText;
+}
+    </script>
+</apex:page>
